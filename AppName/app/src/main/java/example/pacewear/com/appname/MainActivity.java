@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -41,20 +42,28 @@ public class MainActivity extends Activity implements  View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        initViews();
+        EventBus.getDefault().register(this);  // 在这里注册
+
+        startService();
+
+        appendData();
+    }
+
+    private void initViews(){
         mClick = (Button)findViewById(R.id.button_test);
         mClick.setOnClickListener(this);
         mEventBus = (Button)findViewById(R.id.eventBUs);
         mEventBus.setOnClickListener(this);
         mSecond = (Button)findViewById(R.id.secondEventBus) ;
         mSecond.setOnClickListener(this);
-        EventBus.getDefault().register(this);  // 在这里注册
 
         mRecycleView = (Button)findViewById(R.id.recycleView);
         mRecycleView.setOnClickListener(this);
 
-        startService();
-
-        appendData();
+        Button valueAnimator = (Button)findViewById(R.id.value_animator);
+        valueAnimator.setOnClickListener(this);
     }
 
     private void appendData(){
@@ -104,11 +113,19 @@ public class MainActivity extends Activity implements  View.OnClickListener {
                 break;
 
             case R.id.recycleView:
-                Intent intent = new Intent(MainActivity.this,RecycleActivity.class);
-                startActivity(intent);
+                assignOtherActivity(RecycleActivity.class);
 
                 break;
+
+            case R.id.value_animator:
+                assignOtherActivity(ValueAnimatorActivity.class);
+                break;
         }
+    }
+
+    private void assignOtherActivity(Class<?> className){
+        Intent intent = new Intent(MainActivity.this,className);
+        startActivity(intent);
     }
 
     /**

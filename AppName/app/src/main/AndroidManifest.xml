@@ -20,6 +20,8 @@
 
         </activity>
 
+        <activity android:name=".ValueAnimatorActivity"/>
+
         <service android:name=".EventService"
             android:exported="true" />
 
